@@ -1,0 +1,59 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Read CSV file
+from google.colab import drive
+drive.mount('/content/drive')
+path='/content/drive/MyDrive/student_dataset-1.csv'
+df=pd.read_csv(path)
+
+print("---Original Data---")
+print(df)
+
+# Basic Analysis
+print("\n---Basic Analysis---")
+print("First 5 rows:\n", df.head())
+print("\nSummary:\n", df.describe())
+print("\nMissing Values:\n", df.isnull().sum())
+
+# Data Visualizations
+print("\n---Data Visualizations---\n")
+
+# Histogram (Distribution)
+df.hist(figsize=(8,8))
+plt.show()
+print("\n")
+
+# Bar Charts (Categorical)
+df['Gender'].value_counts().plot(kind='bar',title="Gender")
+plt.show()
+print("\n")
+
+df['Department'].value_counts().plot(kind='bar',title="Department")
+plt.show()
+print("\n")
+
+# Scatter Plot (Relationship)
+plt.scatter(df['Study_Hours'], df['Marks'])
+plt.xlabel('Study Hours')
+plt.ylabel('Marks')
+plt.title('Study Hours vs Marks')
+plt.show()
+print("\n")
+
+# Correlation
+corr=df.corr(numeric_only=True)
+print("\nCorrelation:\n", corr)
+
+plt.imshow(corr)
+plt.colorbar()
+plt.title("Correlation Heatmap")
+print("\n")
+plt.show()
+print("\n")
+
+# Insights
+print("\n---Insights---")
+print("- Study hours and marks are related.")
+print("- Attendance may affect marks.")
+print("- Gender and department show distribution.")
