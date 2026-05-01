@@ -1,0 +1,37 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+# Read CSV file
+from google.colab import drive
+drive.mount('/content/drive')
+path='/content/drive/MyDrive/customer_data.csv'
+df=pd.read_csv(path)
+
+print("---Original Data---")
+print(df)
+
+# Select Features
+# Using Relevant Columns
+X = df[['Age', 'Annual_Income', 'Spending_Score']]
+
+# Data Scaling
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Apply K-Means Clustering
+kmeans = KMeans(n_clusters=3, random_state=42)
+df['Cluster'] = kmeans.fit_predict(X_scaled)
+
+# Visualization
+plt.scatter(df['Annual_Income'], df['Spending_Score'], c=df['Cluster'])
+plt.xlabel('Annual Income')
+plt.ylabel('Spending Score')
+plt.title('Customer Segmentation')
+plt.show()
+
+# Cluster Analysis
+print("\nCustomers in each cluster:\n")
+print(df['Cluster'].value_counts())
