@@ -1,0 +1,44 @@
+import numpy as np
+import pandas as pd
+
+# Read CSV file
+from google.colab import drive
+drive.mount('/content/drive')
+path='/content/drive/MyDrive/data-1.csv'
+df=pd.read_csv(path)
+
+print("---Original Data---")
+print(df)
+
+print("\n---Missing Values---")
+print(df.isnull().sum())
+
+# Filled missing values
+df['Age'].fillna(df['Age'].mean(), inplace=True)
+df['Salary'].fillna(df['Salary'].median(), inplace=True)
+
+print("\n---After Filling Missing Values---")
+print(df)
+
+# Removing Duplicates
+df=df.drop_duplicates()
+
+print("\n---After Removing Duplicates---")
+print(df)
+
+# Fixing the Data
+df['City']=df['City'].str.lower()
+df['Gender']=df['Gender'].replace({
+    'M':'Male','m':'Male',
+    'F':'Female','f':'Female',
+    'female':'Female'
+})
+
+print("\n---After Fixing Data---")
+print(df)
+
+# Convert Data Types
+df['Age']=df['Age'].astype(int)
+
+print("\n---Cleaned Data---")
+print(df)
